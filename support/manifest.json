@@ -1,0 +1,17 @@
+{
+  "name": "System76",
+  "author": {
+    "name": "System76",
+    "email": "hosting@system76.com",
+    "url": "https://system76.com"
+  },
+  "defaultLocale": "en",
+  "private": true,
+  "location": {
+    "support": {
+      "ticket_sidebar": "assets/iframe.html"
+    }
+  },
+  "version": "1.0",
+  "frameworkVersion": "2.0"
+}
