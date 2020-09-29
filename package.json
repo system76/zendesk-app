@@ -1,9 +1,27 @@
 {
-  "name": "support",
+  "name": "@system76/zendesk-app",
+  "description": "A Zendesk App for System76",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "nuxt generate"
+    "build": "nuxt generate",
+    "lint": "eslint --ext js,vue .",
+    "lint:fix": "eslint --fix --ext js,vue ."
+  },
+  "homepage": "https://github.com/system76/zendesk-app#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/system76/zendesk-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/system76/zendesk-app/issues"
+  },
+  "files": [
+    "dist/"
+  ],
+  "engines": {
+    "node": ">= 10.0.0",
+    "npm": ">= 6.9.0"
   },
   "dependencies": {
     "@zendeskgarden/css-bedrock": "^8.0.1",
@@ -15,5 +33,9 @@
     "lodash": "^4.17.20",
     "nuxt": "^2.14.5",
     "webpack-dynamic-public-path": "^1.0.5"
+  },
+  "devDependencies": {
+    "@system76/eslint-config": "^3.0.0",
+    "eslint": "^7.10.0"
   }
 }

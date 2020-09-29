@@ -1,6 +1,6 @@
 import debounce from 'lodash/debounce'
 
-const client = ZAFClient.init()
+const client = window.ZAFClient.init()
 
 const resize = debounce(() => {
   // Because this is debounced, we can redirect or do something weird before it

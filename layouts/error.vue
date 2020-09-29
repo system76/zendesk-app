@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h2 class="u-fs-lg u-mb-sm">an error has occured</h2>
+    <h2 class="u-fs-lg u-mb-sm">
+      an error has occured
+    </h2>
 
     <div>
       <button
@@ -14,23 +16,18 @@
 </template>
 
 <script>
-export default {
-  props: {
-    error: {
-      type: Object,
-      default: () => ({ statusCode: 404 })
-    }
-  },
+  export default {
+    props: {
+      error: {
+        type: Object,
+        default: () => ({ statusCode: 404 })
+      }
+    },
 
-  created () {
-    console.log('ERRORORORORORORRRR')
-    console.dir(this.error)
-  },
-
-  methods: {
-    refresh () {
-      window.location.reload()
+    methods: {
+      refresh () {
+        window.location.reload()
+      }
     }
   }
-}
 </script>

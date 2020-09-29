@@ -4,7 +4,9 @@
       v-if="fields.orderId"
       class="u-mb"
     >
-      <h2 class="u-fs-lg u-mb-sm">Order {{ fields.orderId }}</h2>
+      <h2 class="u-fs-lg u-mb-sm">
+        Order {{ fields.orderId }}
+      </h2>
 
       <div>
         <a
@@ -29,7 +31,9 @@
       v-if="user.id"
       class="u-mb"
     >
-      <h2 class="u-fs-lg u-mb-sm">User {{ user.id }}</h2>
+      <h2 class="u-fs-lg u-mb-sm">
+        User {{ user.id }}
+      </h2>
 
       <div>
         <a
@@ -53,52 +57,52 @@
 </template>
 
 <script>
-import camelCase from 'lodash/camelCase'
+  import camelCase from 'lodash/camelCase'
 
-export default {
-  data: () => ({
-    fields: {
-      orderId: null
+  export default {
+    data: () => ({
+      fields: {
+        orderId: null
+      },
+
+      user: {
+        id: null
+      }
+    }),
+
+    async fetch () {
+      await Promise.all([
+        this.fetchFields(),
+        this.fetchUser()
+      ])
     },
 
-    user: {
-      id: null
-    }
-  }),
+    methods: {
+      async fetchFields () {
+        const fieldData = (await this.$zendesk.get('ticketFields'))
+          .ticketFields
+          .filter((f) => (f.label != null && f.name != null))
 
-  async fetch () {
-    await Promise.all([
-      this.fetchFields(),
-      this.fetchUser()
-    ])
-  },
+        const fieldNames = fieldData
+          .map((f) => f.name)
+          .filter((f) => !['problem', 'sharedWith', 'collaborator'].includes(f))
+          .map((f) => `ticket.customField:${f}`)
 
-  methods: {
-    async fetchFields () {
-      const fieldData = (await this.$zendesk.get('ticketFields'))
-        .ticketFields
-        .filter((f) => (f.label != null && f.name != null))
+        const fieldValues = await this.$zendesk.get(fieldNames)
 
-      const fieldNames = fieldData
-        .map((f) => f.name)
-        .filter((f) => !['problem', 'sharedWith', 'collaborator'].includes(f))
-        .map((f) => `ticket.customField:${f}`)
+        Object.entries(fieldValues).forEach(([k, v]) => {
+          if (k !== 'errors') {
+            const fieldName = fieldData.find((f) => (`ticket.customField:${f.name}` === k))
+            this.fields[camelCase(fieldName.label)] = v
+          }
+        })
+      },
 
-      const fieldValues = await this.$zendesk.get(fieldNames)
+      async fetchUser () {
+        const externalIdData = await this.$zendesk.get('ticket.requester.externalId')
 
-      Object.entries(fieldValues).forEach(([k, v]) => {
-        if (k !== 'errors') {
-          const fieldName = fieldData.find((f) => (`ticket.customField:${f.name}` === k))
-          this.fields[camelCase(fieldName.label)] = v
-        }
-      })
-    },
-
-    async fetchUser () {
-      const externalIdData = await this.$zendesk.get('ticket.requester.externalId')
-
-      this.user.id = externalIdData['ticket.requester.externalId']
+        this.user.id = externalIdData['ticket.requester.externalId']
+      }
     }
   }
-}
 </script>
