@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="zendesk/assets/logo-small.png" alt="Zendesk Apps">
+  <img src="static/logo-small.png" alt="Zendesk Apps">
   <h1>Zendesk App</h1>
   <h3>A Zendesk App for System76</h3>
   <br>
@@ -31,7 +31,22 @@ on.
 
 ## Running
 
-TODO
+Simply run `npm start`, open up your zendesk instance, and add `?zat=true` to
+the end of the url. Hot reloading should be enabled so you can hack away!
+
+### Adding sections
+
+If you plan to add pages / zendesk sections, you will need to edit two files:
+
+1) The `zendesk/manifest.json` file. This is the file that tells zendesk what
+to add our app to. The value can stay the normal `assets/index.html` file.
+
+2) The `static/app.js` file. This file is used in development to setup hot
+reloading with zendesk. The `url` will need to have `assets/` before the normal
+path.
+
+_NOTE_ You will need to redeploy the Zendesk app for these to take effect.
+Please see the section below for how to do that.
 
 ## Deployment
 

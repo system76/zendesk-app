@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "start": "nuxt dev",
     "build": "nuxt generate",
     "lint": "eslint --ext js,vue .",
     "lint:fix": "eslint --fix --ext js,vue ."

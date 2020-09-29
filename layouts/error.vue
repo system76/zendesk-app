@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="u-fs-lg u-mb-sm">
-      an error has occured
+      {{ statusCode }} - {{ message }}
     </h2>
 
     <div>
@@ -21,6 +21,16 @@
       error: {
         type: Object,
         default: () => ({ statusCode: 404 })
+      }
+    },
+
+    computed: {
+      message () {
+        return this.error.message || 'An error has occured'
+      },
+
+      statusCode () {
+        return this.error.statusCode || 404
       }
     },
 
