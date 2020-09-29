@@ -25,4 +25,6 @@ export default (context, inject) => {
   context.app.router.afterEach(resize)
 
   inject('zendesk', client)
+
+  context.store.dispatch('context/fetch')
 }

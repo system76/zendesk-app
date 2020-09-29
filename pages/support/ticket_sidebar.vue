@@ -1,25 +1,25 @@
 <template>
   <div>
     <div
-      v-if="fields.orderId"
+      v-if="orderId"
       class="u-mb"
     >
-      <h2 class="u-fs-lg u-mb-sm">
-        Order {{ fields.orderId }}
+      <h2 class="u-mb-sm">
+        Order {{ orderId }}
       </h2>
 
       <div>
         <a
-          :href="`https://admin.system76.com/fulfillment/orders/${fields.orderId}`"
-          class="c-btn"
+          :href="`https://admin.${site}.com/fulfillment/orders/${orderId}`"
+          class="c-btn c-btn--sm"
           target="_blank"
         >
           LCARS
         </a>
 
         <a
-          :href="`https://system76.com/admin/service/order/${fields.orderId}`"
-          class="c-btn"
+          :href="`https://${site}.com/admin/service/order/${orderId}`"
+          class="c-btn c-btn--sm"
           target="_blank"
         >
           Joshua
@@ -31,22 +31,22 @@
       v-if="user.id"
       class="u-mb"
     >
-      <h2 class="u-fs-lg u-mb-sm">
+      <h2 class="u-mb-sm">
         User {{ user.id }}
       </h2>
 
       <div>
         <a
-          :href="`https://admin.system76.com/account/customers/${user.id}`"
-          class="c-btn"
+          :href="`https://admin.${site}.com/account/customers/${user.id}`"
+          class="c-btn c-btn--sm"
           target="_blank"
         >
           LCARS
         </a>
 
         <a
-          :href="`https://system76.com/admin/service/customer/${user.id}`"
-          class="c-btn"
+          :href="`https://${site}.com/admin/service/customer/${user.id}`"
+          class="c-btn c-btn--sm"
           target="_blank"
         >
           Joshua
@@ -57,47 +57,31 @@
 </template>
 
 <script>
-  import camelCase from 'lodash/camelCase'
+  import { mapGetters, mapState } from 'vuex'
 
   export default {
     data: () => ({
-      fields: {
-        orderId: null
-      },
-
       user: {
         id: null
       }
     }),
 
+    computed: {
+      ...mapState('context', ['site']),
+      ...mapGetters('support', ['getFieldValue']),
+
+      orderId () {
+        return this.getFieldValue('orderId')
+      }
+    },
+
     async fetch () {
       await Promise.all([
-        this.fetchFields(),
         this.fetchUser()
       ])
     },
 
     methods: {
-      async fetchFields () {
-        const fieldData = (await this.$zendesk.get('ticketFields'))
-          .ticketFields
-          .filter((f) => (f.label != null && f.name != null))
-
-        const fieldNames = fieldData
-          .map((f) => f.name)
-          .filter((f) => !['problem', 'sharedWith', 'collaborator'].includes(f))
-          .map((f) => `ticket.customField:${f}`)
-
-        const fieldValues = await this.$zendesk.get(fieldNames)
-
-        Object.entries(fieldValues).forEach(([k, v]) => {
-          if (k !== 'errors') {
-            const fieldName = fieldData.find((f) => (`ticket.customField:${f.name}` === k))
-            this.fields[camelCase(fieldName.label)] = v
-          }
-        })
-      },
-
       async fetchUser () {
         const externalIdData = await this.$zendesk.get('ticket.requester.externalId')
 
