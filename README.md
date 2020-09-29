@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="static/logo.png" alt="Zendesk Apps">
+  <img src="zendesk/assets/logo-small.png" alt="Zendesk Apps">
   <h1>Zendesk App</h1>
   <h3>A Zendesk App for System76</h3>
   <br>
