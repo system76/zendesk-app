@@ -1,0 +1,8 @@
+{
+  "app": {
+    "name": "System76",
+    "short_description": "System76 administration",
+    "long_description": "Portal to System76 administration directly in Zendesk",
+    "installation_instructions": "Simply click the install button"
+  }
+}
