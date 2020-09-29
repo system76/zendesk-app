@@ -1,5 +1,5 @@
 (function () {
-  ZendeskApps.System76 = ZendeskApps.defineApp(null)
+  window.ZendeskApps.System76 = window.ZendeskApps.defineApp(null)
     .reopenClass({
       location: {
         support: {
@@ -41,4 +41,4 @@
     })
 }())
 
-ZendeskApps.trigger && ZendeskApps.trigger('ready')
+window.ZendeskApps.trigger && window.ZendeskApps.trigger('ready')

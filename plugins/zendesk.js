@@ -1,7 +1,7 @@
 import debounce from 'lodash/debounce'
 
 export default (context, inject) => {
-  let client = window.ZAFClient.init()
+  const client = window.ZAFClient.init()
 
   if (client === false) {
     return context.error(400, 'Unable to connect with Zendesk')
