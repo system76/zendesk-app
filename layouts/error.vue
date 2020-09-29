@@ -23,11 +23,8 @@ export default {
   },
 
   created () {
-    const { path, query } = this.$route
-
-    if (this.error.statusCode === 404 && path.endsWith('.html')) {
-      this.$router.push(path.replace('/index.html', ''))
-    }
+    console.log('ERRORORORORORORRRR')
+    console.dir(this.error)
   },
 
   methods: {

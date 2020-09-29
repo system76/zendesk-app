@@ -23,7 +23,7 @@ export default {
   ],
 
   generate: {
-    dir: 'dist/assets'
+    fallback: 'index.html'
   },
 
   plugins: [

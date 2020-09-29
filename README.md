@@ -18,7 +18,6 @@ create these apps.
 ## Requirements
 
 - A recent version of `node`
-- The [Zendesk App Tools](https://developer.zendesk.com/apps/docs/developer-guide/zat)
 
 ## Setup
 
@@ -32,6 +31,16 @@ on.
 ## Running
 
 TODO
+
+## Deployment
+
+For the main app, everything is deployed on push to `master` or `staging`
+branch, just like our other repositories.
+
+To deploy the Zendesk app, you will need the
+[Zendesk App Tools](https://developer.zendesk.com/apps/docs/developer-guide/zat)
+installed. Next, just `cd` into the `zendesk` folder, run `zat package`, and
+upload that package to Zendesk.
 
 ## License
 
