@@ -1,16 +1,17 @@
 <div align="center">
-  <img src="support/static/logo.png" alt="Zendesk Apps">
-  <h1>Zendesk Apps</h1>
-  <h3>A collection of Zendesk apps for System76</h3>
+  <img src="static/logo.png" alt="Zendesk Apps">
+  <h1>Zendesk App</h1>
+  <h3>A Zendesk App for System76</h3>
   <br>
   <br>
 </div>
 
 ---
 
-This repository contains some [zendesk apps](https://developer.zendesk.com/apps)
+This repository contains a nuxt site used as a
+[zendesk app](https://developer.zendesk.com/apps)
 that enhance the workflow for System76 employees working in Zendesk. While this
-repository is open source, the applications are very specific to our work flow
+repository is open source, the application are very specific to our work flow
 and will be of no use in other people's instance of Zendesk. We keep this
 repository open in hopes people can see, learn, and possibly enhance how we
 create these apps.
