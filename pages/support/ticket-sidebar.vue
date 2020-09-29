@@ -8,7 +8,7 @@
 
       <div>
         <a
-          :href="`https://admin.genesis76.com/fulfillment/orders/${fields.orderId}`"
+          :href="`https://admin.system76.com/fulfillment/orders/${fields.orderId}`"
           class="c-btn"
           target="_blank"
         >
@@ -16,7 +16,7 @@
         </a>
 
         <a
-          :href="`https://genesis76.com/admin/service/order/${fields.orderId}`"
+          :href="`https://system76.com/admin/service/order/${fields.orderId}`"
           class="c-btn"
           target="_blank"
         >
@@ -33,7 +33,7 @@
 
       <div>
         <a
-          :href="`https://admin.genesis76.com/account/customers/${user.id}`"
+          :href="`https://admin.system76.com/account/customers/${user.id}`"
           class="c-btn"
           target="_blank"
         >
@@ -41,7 +41,7 @@
         </a>
 
         <a
-          :href="`https://genesis76.com/admin/service/customer/${user.id}`"
+          :href="`https://system76.com/admin/service/customer/${user.id}`"
           class="c-btn"
           target="_blank"
         >
