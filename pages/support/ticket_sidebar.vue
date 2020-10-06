@@ -4,26 +4,27 @@
       v-if="fields.orderId"
       class="u-mb"
     >
-      <h2 class="u-fs-lg u-mb-sm">
+      <h1 class="label">
         Order {{ fields.orderId }}
-      </h2>
+      </h1>
 
       <div>
-        <a
+        <b-button
           :href="`https://admin.system76.com/fulfillment/orders/${fields.orderId}`"
-          class="c-btn"
+          tag="a"
           target="_blank"
+          type="is-primary"
         >
           LCARS
-        </a>
+        </b-button>
 
-        <a
+        <b-button
           :href="`https://system76.com/admin/service/order/${fields.orderId}`"
-          class="c-btn"
+          tag="a"
           target="_blank"
         >
           Joshua
-        </a>
+        </b-button>
       </div>
     </div>
 
@@ -31,26 +32,27 @@
       v-if="user.id"
       class="u-mb"
     >
-      <h2 class="u-fs-lg u-mb-sm">
+      <h1 class="label">
         User {{ user.id }}
-      </h2>
+      </h1>
 
       <div>
-        <a
+        <b-button
           :href="`https://admin.system76.com/account/customers/${user.id}`"
-          class="c-btn"
+          tag="a"
           target="_blank"
+          type="is-primary"
         >
           LCARS
-        </a>
+        </b-button>
 
-        <a
+        <b-button
           :href="`https://system76.com/admin/service/customer/${user.id}`"
-          class="c-btn"
+          tag="a"
           target="_blank"
         >
           Joshua
-        </a>
+        </b-button>
       </div>
     </div>
   </div>
