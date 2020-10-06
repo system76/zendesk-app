@@ -24,5 +24,20 @@ export default (context, inject) => {
 
   context.app.router.afterEach(resize)
 
+  client.modal = (url, opts) => {
+    const [, host,, query] = window.location.href.match(/^(https?:\/\/[a-zA-Z0-9:]+)(\/.*)(\?.*)$/)
+
+    return new Promise((resolve, reject) => {
+      client.invoke('instances.create', {
+        location: 'modal',
+        url: host + url + query,
+        ...opts
+      })
+        .then((ctx) => client.instance(ctx['instances.create'][0].instanceGuid))
+        .then((cli) => cli.on('modal.close', resolve))
+        .catch(reject)
+    })
+  }
+
   inject('zendesk', client)
 }

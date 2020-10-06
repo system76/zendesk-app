@@ -19,19 +19,34 @@ export default {
   },
 
   css: [
-    '~/assets/styles/main.css'
+    '~/assets/styles/bulma.scss'
   ],
 
   generate: {
     fallback: 'index.html'
   },
 
+  modules: [
+    '@nuxtjs/style-resources'
+  ],
+
   plugins: [
-    '~/plugins/zendesk.js'
+    '~/plugins/buefy',
+    '~/plugins/zendesk'
   ],
 
   server: {
     host: '0.0.0.0',
     port: 4567
+  },
+
+  serverMiddleware: [
+    '~/server-middleware/zat'
+  ],
+
+  styleResources: {
+    scss: [
+      'assets/styles/variables.scss'
+    ]
   }
 }

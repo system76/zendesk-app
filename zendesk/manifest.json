@@ -12,6 +12,18 @@
       "ticket_sidebar": "assets/index.html"
     }
   },
+  "parameters": [{
+    "name": "halUrl",
+    "type": "text",
+    "required": true,
+    "secure": false,
+    "default": "api-v2.system76.com"
+  }, {
+    "name": "token",
+    "type": "text",
+    "required": true,
+    "secure": true
+  }],
   "version": "1.0",
   "frameworkVersion": "2.0"
 }
