@@ -40,4 +40,6 @@ export default (context, inject) => {
   }
 
   inject('zendesk', client)
+
+  context.store.dispatch('context/fetch')
 }

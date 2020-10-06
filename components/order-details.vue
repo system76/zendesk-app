@@ -6,7 +6,7 @@
 
     <div class="buttons has-addons">
       <b-button
-        href="#"
+        :href="joshuaUrl"
         rel="noreferrer"
         tag="a"
         target="_blank"
@@ -15,7 +15,7 @@
       </b-button>
 
       <b-button
-        href="lcarsUrl"
+        :href="lcarsUrl"
         rel="noreferrer"
         tag="a"
         target="_blank"
@@ -37,11 +37,25 @@
 </style>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default {
     props: {
       orderId: {
         type: [String, Number],
         required: true
+      }
+    },
+
+    computed: {
+      ...mapState('context', ['site']),
+
+      joshuaUrl () {
+        return `https://${this.site}.com/admin/service/order/${this.orderId}`
+      },
+
+      lcarsUrl () {
+        return `https://admin.${this.site}.com/fulfillment/orders/${this.orderId}`
       }
     }
   }

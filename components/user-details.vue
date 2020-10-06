@@ -7,7 +7,7 @@
         :alt="title"
       >
 
-      <h1 class="title is-4 is-spaced">
+      <h1 class="title is-4">
         {{ title }}
       </h1>
       <h2
@@ -33,7 +33,7 @@
 
       <div class="buttons has-addons">
         <b-button
-          href="#"
+          :href="joshuaUrl"
           rel="noreferrer"
           tag="a"
           target="_blank"
@@ -42,7 +42,7 @@
         </b-button>
 
         <b-button
-          href="lcarsUrl"
+          :href="lcarsUrl"
           rel="noreferrer"
           tag="a"
           target="_blank"
@@ -92,6 +92,7 @@
 
 <script>
   import md5 from 'blueimp-md5'
+  import { mapState } from 'vuex'
 
   export default {
     props: {
@@ -113,6 +114,8 @@
     },
 
     computed: {
+      ...mapState('context', ['site']),
+
       avatarExists () {
         return (this.user != null && this.user.email != null && this.user.email !== '')
       },
@@ -144,11 +147,11 @@
       },
 
       joshuaUrl () {
-        return '#'
+        return `https://${this.site}.com/admin/service/customer/${this.userId}`
       },
 
       lcarsUrl () {
-        return '#'
+        return `https://admin.${this.site}.com/account/customers/${this.userId}`
       },
 
       subtitle () {

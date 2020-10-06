@@ -4,53 +4,34 @@
       <user-details :user-id="userId" />
     </div>
 
-    <div v-if="fields.orderId">
+    <div v-if="orderId">
       <hr class="my-4">
-      <order-details :order-id="fields.orderId" />
+      <order-details :order-id="orderId" />
     </div>
   </div>
 </template>
 
 <script>
-  import camelCase from 'lodash/camelCase'
+  import { mapGetters } from 'vuex'
 
   export default {
     data: () => ({
-      fields: {
-        orderId: null
-      },
-
       userId: null
     }),
 
+    computed: {
+      ...mapGetters('support', ['getFieldValue']),
+
+      orderId () {
+        return this.getFieldValue('orderId')
+      },
+    },
+
     async fetch () {
-      await Promise.all([
-        this.fetchFields(),
-        this.fetchUser()
-      ])
+      await this.fetchUser()
     },
 
     methods: {
-      async fetchFields () {
-        const fieldData = (await this.$zendesk.get('ticketFields'))
-          .ticketFields
-          .filter((f) => (f.label != null && f.name != null))
-
-        const fieldNames = fieldData
-          .map((f) => f.name)
-          .filter((f) => !['problem', 'sharedWith', 'collaborator'].includes(f))
-          .map((f) => `ticket.customField:${f}`)
-
-        const fieldValues = await this.$zendesk.get(fieldNames)
-
-        Object.entries(fieldValues).forEach(([k, v]) => {
-          if (k !== 'errors') {
-            const fieldName = fieldData.find((f) => (`ticket.customField:${f.name}` === k))
-            this.fields[camelCase(fieldName.label)] = v
-          }
-        })
-      },
-
       async fetchUser () {
         const externalIdData = await this.$zendesk.get('ticket.requester.externalId')
         this.userId = externalIdData['ticket.requester.externalId']
