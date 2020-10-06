@@ -1,59 +1,12 @@
 <template>
   <div>
-    <div
-      v-if="fields.orderId"
-      class="u-mb"
-    >
-      <h1 class="label">
-        Order {{ fields.orderId }}
-      </h1>
-
-      <div>
-        <b-button
-          :href="`https://admin.system76.com/fulfillment/orders/${fields.orderId}`"
-          tag="a"
-          target="_blank"
-          type="is-primary"
-        >
-          LCARS
-        </b-button>
-
-        <b-button
-          :href="`https://system76.com/admin/service/order/${fields.orderId}`"
-          tag="a"
-          target="_blank"
-        >
-          Joshua
-        </b-button>
-      </div>
+    <div v-if="userId">
+      <user-details :user-id="userId" />
     </div>
 
-    <div
-      v-if="user.id"
-      class="u-mb"
-    >
-      <h1 class="label">
-        User {{ user.id }}
-      </h1>
-
-      <div>
-        <b-button
-          :href="`https://admin.system76.com/account/customers/${user.id}`"
-          tag="a"
-          target="_blank"
-          type="is-primary"
-        >
-          LCARS
-        </b-button>
-
-        <b-button
-          :href="`https://system76.com/admin/service/customer/${user.id}`"
-          tag="a"
-          target="_blank"
-        >
-          Joshua
-        </b-button>
-      </div>
+    <div v-if="fields.orderId">
+      <hr class="my-4">
+      <order-details :order-id="fields.orderId" />
     </div>
   </div>
 </template>
@@ -67,9 +20,7 @@
         orderId: null
       },
 
-      user: {
-        id: null
-      }
+      userId: null
     }),
 
     async fetch () {
@@ -102,8 +53,7 @@
 
       async fetchUser () {
         const externalIdData = await this.$zendesk.get('ticket.requester.externalId')
-
-        this.user.id = externalIdData['ticket.requester.externalId']
+        this.userId = externalIdData['ticket.requester.externalId']
       }
     }
   }
