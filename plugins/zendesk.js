@@ -10,7 +10,7 @@ export default (context, inject) => {
   client.on('reload', () => window.location.reload())
 
   client.modal = (url, opts = {}) => {
-    const [, host,, query] = window.location.href.match(/^(https?:\/\/[a-zA-Z0-9.:\-]+)(\/.*)(\?.*)$/)
+    const [, host,, query] = window.location.href.match(/^(https?:\/\/[a-zA-Z0-9.:-]+)(\/.*)(\?.*)$/)
 
     return new Promise((resolve, reject) => {
       client.invoke('instances.create', {
