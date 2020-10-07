@@ -4,7 +4,14 @@ import pick from 'lodash/pick'
 const BLOCKLIST_FIELDS = ['collaborator', 'problem', 'sharedWith', 'tags']
 
 export const state = () => ({
-  fields: []
+  fields: [],
+
+  requester: {
+    id: null,
+    email: null,
+    name: null,
+    externalId: null
+  }
 })
 
 export const getters = {
@@ -23,6 +30,12 @@ export const getters = {
 export const mutations = {
   setFields (state, fields) {
     state.fields = fields.map((f) => pick(f, ['label', 'name', 'value']))
+  },
+
+  setRequester (state, requester) {
+    Object.entries(requester).forEach(([k, v]) => {
+      state.requester[k] = v
+    })
   }
 }
 
@@ -50,5 +63,10 @@ export const actions = {
     })
 
     commit('setFields', cleaned)
+  },
+
+  async fetchRequester ({ commit }) {
+    const req = await this.$zendesk.get('ticket.requester')
+    commit('setRequester', req['ticket.requester'])
   }
 }

@@ -1,5 +1,18 @@
 <template>
-  <div>
+  <b-loading
+    v-if="$fetchState.pending"
+    active
+    :is-full-page="false"
+  />
+
+  <b-message
+    v-else-if="$fetchState.error"
+    type="is-danger"
+  >
+    {{ $fetchState.error.message }}
+  </b-message>
+
+  <div v-else-if="user.id">
     <div class="head">
       <img
         :src="avatarUrl"
@@ -20,7 +33,7 @@
 
     <div class="mt-2 foot">
       <b-taglist class="mt-2 mb-0 tags">
-        <b-tag v-if="user.accountType === 'business'">
+        <b-tag v-if="isBusiness">
           Business
         </b-tag>
         <b-tag v-if="user.newsletter">
@@ -53,6 +66,22 @@
       </div>
     </div>
   </div>
+
+  <div
+    v-else
+    class="inline"
+  >
+    <h1 class="title my-0 is-4">
+      Unknown User
+    </h1>
+
+    <b-button
+      type="is-primary"
+      @click="createUser"
+    >
+      Create User
+    </b-button>
+  </div>
 </template>
 
 <style scoped>
@@ -67,8 +96,16 @@
 
   .foot {
     display: grid;
+    justify-content: space-between;
     grid-gap: 0 1rem;
     grid-template-columns: 1fr auto;
+  }
+
+  .inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-content: center;
   }
 
   img {
@@ -98,7 +135,7 @@
     props: {
       userId: {
         type: [String, Number],
-        required: true
+        default: null
       }
     },
 
@@ -107,17 +144,19 @@
     }),
 
     async fetch () {
-      this.user = await this.$hal()
-        .get(`/accounts/users/${this.userId}`)
-        .jsonApi()
-        .flatten()
+      if (this.userId != null) {
+        this.user = await this.$hal()
+          .get(`/accounts/users/${this.userId}`)
+          .jsonApi()
+          .flatten()
+      }
     },
 
     computed: {
       ...mapState('context', ['site']),
 
       avatarExists () {
-        return (this.user != null && this.user.email != null && this.user.email !== '')
+        return (this.user.email != null && this.user.email !== '')
       },
 
       avatarHash () {
@@ -137,9 +176,11 @@
       },
 
       fullName () {
-        return [this.user.firstName, this.user.lastName]
+        const res = [this.user.firstName, this.user.lastName]
           .filter((u) => (u != null))
           .join(' ')
+
+        return (res === '') ? 'Unknown' : res
       },
 
       isBusiness () {
@@ -170,6 +211,14 @@
         } else {
           return this.fullName
         }
+      }
+    },
+
+    methods: {
+      async createUser () {
+        await this.$zendesk.modal('/modal/create_customer')
+
+        this.$fetch()
       }
     }
   }

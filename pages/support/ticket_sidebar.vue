@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <div v-if="userId">
-      <user-details :user-id="userId" />
-    </div>
+  <div v-if="!$fetchState.pending">
+    <user-details :user-id="requester.externalId" />
 
     <div v-if="orderId">
       <hr class="my-4">
@@ -12,30 +10,23 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapState } from 'vuex'
 
   export default {
-    data: () => ({
-      userId: null
-    }),
-
     computed: {
       ...mapGetters('support', ['getFieldValue']),
+      ...mapState('support', ['requester']),
 
       orderId () {
         return this.getFieldValue('orderId')
-      },
-    },
-
-    async fetch () {
-      await this.fetchUser()
-    },
-
-    methods: {
-      async fetchUser () {
-        const externalIdData = await this.$zendesk.get('ticket.requester.externalId')
-        this.userId = externalIdData['ticket.requester.externalId']
       }
+    },
+
+    fetch () {
+      return Promise.all([
+        this.$store.dispatch('support/fetchFields'),
+        this.$store.dispatch('support/fetchRequester')
+      ])
     }
   }
 </script>
