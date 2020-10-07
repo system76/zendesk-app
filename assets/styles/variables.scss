@@ -1,80 +1,72 @@
 @import "~bulma/sass/utilities/initial-variables";
 @import "~bulma/sass/utilities/functions";
 
-// System 76 brand
-$curiosity-orange: #FFAD00;
-$pop-blue: #48B9C7;
-$warm-grey: #574F4A;
-$lumen-yellow: #F7E062;
-$discovery: #102A4C;
-$bronze: #AF5C02;
-
 // Colors
-$black: hsl(0,0%,0%);
-$grey-darker: darken($warm-grey, 15%);
-$grey-dark: darken($warm-grey, 10%);
-$grey: $warm-grey;
-$grey-light: lighten($warm-grey, 20%);
-$grey-lighter: lighten($warm-grey, 40%);
-$white-ter: #e1e1e1;
-$white-bis: #fcfcfc;
+
+$black: #000;
+$black-bis: #2f3941;
+$black-ter: #49545c;
+
+$grey-darker: #49545c;
+$grey-dark: #68737d;
+$grey: #87929d;
+$grey-light: #c2c8cc;
+$grey-lighter: #d8dcde;
+$grey-lightest: #e9ebed;
+
+$white-ter: #e9ebed;
+$white-bis: #f8f9f9;
+$white: #fff;
+
+$orange: #de701d;
+$yellow: #f79a3e;
+$green: #228f67;
+$turquoise: #3091ec;
+$cyan: #02a191;
+$blue: #337fbd;
+$purple: #b552e2;
+$red: #d93f4c;
 
 // Derived Colors
-$primary: $curiosity-orange;
-$secondary: $pop-blue;
-$neutral: $warm-grey;
-$text: $warm-grey;
-$link: $curiosity-orange;
-$link-hover: $curiosity-orange;
-$link-visited: $bronze;
 
-// Scheme
-$scheme-main: #fff; // background color
-$scheme-main-ter: $white-ter;
-$scheme-main-bis: $white-bis;
+$primary: $blue;
 
-// Inverted
-$primary-invert: $black;
-$secondary-invert: findColorInvert($secondary);
-$link-invert: findColorInvert($link);
+// Text colors
 
-// Merge colors for use with is-color classes (e.g. is-primary)
-$custom-colors: (
-  "grey": ($grey, $white),
-  "grey-dark": ($grey-dark, $white),
-  "grey-darker": ($grey-darker, $white),
-  "grey-light": ($grey-light, $black),
-  "grey-lighter": ($grey-lighter, $black),
-  "primary": ($primary, $primary-invert),
-  "secondary": ($secondary, $secondary-invert),
-  "neutral": ($neutral, $black),
-  "link": ($link, $link-invert)
-);
+$text: $black-bis;
+$text-light: $text;
+$text-strong: $text;
+
+// Link colors
+
+$link: #1f73b7;
+$link-visited: #1f73b7;
+
+$link-hover: #5293c7;
+$link-hover-border: #5293c7;
+
+$link-focus: #5293c7;
+$link-focus-border: #5293c7;
+
+$link-active: #5293c7;
+$link-active-border: #5293c7;
 
 // Typography
-$family-sans-serif: "Fira Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$family-secondary: 'Roboto Slab', serif;
+
+$family-sans-serif: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+$family-monospace: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+
+$size-1: 36px;
+$size-2: 26px;
+$size-3: 22px;
+$size-4: 18px;
+$size-5: 14px;
+$size-6: 12px;
+$size-7: 10px;
 
 // Layout
-$radius: 4px;
-$body-size: 16px;
 
-// Sidebars
-$sidebar-box-shadow: none;
-$sidebar-mobile-width: 110px;
-// TODO: Set this to a much higher value once this PR is merged and released:
-// https://github.com/buefy/buefy/pull/2823
-$sidebar-mobile-breakpoint: $desktop;
-
-// Boxes
-$box-background-color: $white-bis;
-$box-radius: 3px;
-$box-shadow:
-  0 0 0 1px $white-ter,
-  0 0.25em 0.5em -0.125em rgba($black, 0.1);
-
-// Table
-$table-row-hover-background-color: $white-ter;
+$body-size: 14px;
 
 @import "~bulma/sass/utilities/derived-variables";
 @import "~bulma/sass/utilities/animations";

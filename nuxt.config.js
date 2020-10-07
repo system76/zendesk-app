@@ -32,7 +32,10 @@ export default {
 
   plugins: [
     '~/plugins/buefy',
-    '~/plugins/zendesk'
+    '~/plugins/font-awesome',
+    '~/plugins/zendesk',
+
+    '~/plugins/hal'
   ],
 
   server: {
