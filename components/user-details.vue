@@ -1,90 +1,96 @@
 <template>
-  <b-loading
-    v-if="$fetchState.pending"
-    active
-    :is-full-page="false"
-  />
+  <div class="container">
+    <b-loading
+      v-if="$fetchState.pending"
+      active
+      :is-full-page="false"
+    />
 
-  <b-message
-    v-else-if="$fetchState.error"
-    type="is-danger"
-  >
-    {{ $fetchState.error.message }}
-  </b-message>
+    <b-message
+      v-else-if="$fetchState.error"
+      type="is-danger"
+    >
+      {{ $fetchState.error.message }}
+    </b-message>
 
-  <div v-else-if="user.id">
-    <div class="head">
-      <img
-        :src="avatarUrl"
-        :title="title"
-        :alt="title"
-      >
-
-      <h1 class="title is-4">
-        {{ title }}
-      </h1>
-      <h2
-        v-if="subtitle"
-        class="subtitle is-5"
-      >
-        {{ subtitle }}
-      </h2>
-    </div>
-
-    <div class="mt-2 foot">
-      <b-taglist class="mt-2 mb-0 tags">
-        <b-tag v-if="isBusiness">
-          Business
-        </b-tag>
-        <b-tag v-if="user.newsletter">
-          Newsletter
-        </b-tag>
-        <b-tag v-if="user.taxExempt">
-          Tax Exempt
-        </b-tag>
-      </b-taglist>
-
-      <div class="buttons has-addons">
-        <b-button
-          :href="joshuaUrl"
-          rel="noreferrer"
-          tag="a"
-          target="_blank"
+    <div v-else-if="user.id">
+      <div class="head">
+        <img
+          :src="avatarUrl"
+          :title="title"
+          :alt="title"
         >
-          Joshua
-        </b-button>
 
-        <b-button
-          :href="lcarsUrl"
-          rel="noreferrer"
-          tag="a"
-          target="_blank"
-          type="is-primary"
+        <h1 class="title is-4">
+          {{ title }}
+        </h1>
+        <h2
+          v-if="subtitle"
+          class="subtitle is-5"
         >
-          LCARS
-        </b-button>
+          {{ subtitle }}
+        </h2>
+      </div>
+
+      <div class="mt-2 foot">
+        <b-taglist class="mt-2 mb-0 tags">
+          <b-tag v-if="isBusiness">
+            Business
+          </b-tag>
+          <b-tag v-if="user.newsletter">
+            Newsletter
+          </b-tag>
+          <b-tag v-if="user.taxExempt">
+            Tax Exempt
+          </b-tag>
+        </b-taglist>
+
+        <div class="buttons has-addons">
+          <b-button
+            :href="joshuaUrl"
+            rel="noreferrer"
+            tag="a"
+            target="_blank"
+          >
+            Joshua
+          </b-button>
+
+          <b-button
+            :href="lcarsUrl"
+            rel="noreferrer"
+            tag="a"
+            target="_blank"
+            type="is-primary"
+          >
+            LCARS
+          </b-button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div
-    v-else
-    class="inline"
-  >
-    <h1 class="title my-0 is-4">
-      Unknown User
-    </h1>
-
-    <b-button
-      type="is-primary"
-      @click="$emit('create')"
+    <div
+      v-else
+      class="inline"
     >
-      Create User
-    </b-button>
+      <h1 class="title my-0 is-4">
+        Unknown User
+      </h1>
+
+      <b-button
+        type="is-primary"
+        @click="$emit('create')"
+      >
+        Create User
+      </b-button>
+    </div>
   </div>
 </template>
 
 <style scoped>
+  .container {
+    position: relative;
+  }
+
   .head {
     display: grid;
     grid-gap: 0 2ch;

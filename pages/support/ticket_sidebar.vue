@@ -7,7 +7,10 @@
 
     <div v-if="orderId">
       <hr class="my-4">
-      <order-details :order-id="orderId" />
+      <order-details
+        :order-id="orderId"
+        :product-model="productModel"
+      />
     </div>
   </div>
 </template>
@@ -22,6 +25,10 @@
 
       orderId () {
         return this.getFieldValue('orderId')
+      },
+
+      productModel () {
+        return this.getFieldValue('productModel')
       }
     },
 

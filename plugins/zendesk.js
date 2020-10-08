@@ -24,7 +24,7 @@ export default (context, inject) => {
     })
   }
 
-  client.resize = debounce(() => {
+  client.resize = debounce((additional = 0) => {
     // Because this is debounced, we can redirect or do something weird before it
     // runs, causing an undefined error. So we just ignore failed resize events
     try {
@@ -33,7 +33,7 @@ export default (context, inject) => {
         : 200
 
       client.invoke('resize', {
-        height: `${height}px`,
+        height: `${height + additional}px`,
         width: '100%'
       })
     } catch (e) {}
