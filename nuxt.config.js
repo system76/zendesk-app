@@ -35,7 +35,8 @@ export default {
     '~/plugins/font-awesome',
     '~/plugins/zendesk',
 
-    '~/plugins/hal'
+    '~/plugins/hal',
+    '~/plugins/resize'
   ],
 
   server: {

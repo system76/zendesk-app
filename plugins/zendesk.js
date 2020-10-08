@@ -28,16 +28,12 @@ export default (context, inject) => {
     // Because this is debounced, we can redirect or do something weird before it
     // runs, causing an undefined error. So we just ignore failed resize events
     try {
-      const height = (document.body.clientHeight > 200)
-        ? document.body.clientHeight
-        : 200
-
       client.invoke('resize', {
-        height: `${height}px`,
+        height: `${document.body.clientHeight}px`,
         width: '100%'
       })
     } catch (e) {}
-  }, 10)
+  }, 25)
 
   client.remote = async (location) => {
     const instanceData = await client.get('instances')

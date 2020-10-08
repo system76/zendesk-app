@@ -1,10 +1,16 @@
 <template>
   <div v-if="!$fetchState.pending">
-    <user-details :user-id="requester.externalId" />
+    <user-details
+      :user-id="requester.externalId"
+      @create="createUser"
+    />
 
     <div v-if="orderId">
       <hr class="my-4">
-      <order-details :order-id="orderId" />
+      <order-details
+        :order-id="orderId"
+        :product-model="productModel"
+      />
     </div>
   </div>
 </template>
@@ -19,6 +25,10 @@
 
       orderId () {
         return this.getFieldValue('orderId')
+      },
+
+      productModel () {
+        return this.getFieldValue('productModel')
       }
     },
 
@@ -27,6 +37,14 @@
         this.$store.dispatch('support/fetchFields'),
         this.$store.dispatch('support/fetchRequester')
       ])
+    },
+
+    methods: {
+      async createUser () {
+        await this.$zendesk.modal('/support/create_customer_modal')
+
+        this.$fetch()
+      }
     }
   }
 </script>
