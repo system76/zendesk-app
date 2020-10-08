@@ -43,7 +43,7 @@
         />
       </div>
 
-      <b-tabs v-model="activeTab">
+      <b-tabs>
         <b-tab-item label="Technical">
           <ul :class="$style.list">
             <li>
@@ -190,7 +190,6 @@
 
     data () {
       return {
-        activeTab: 0,
         isOpen: this.open
       }
     },
@@ -201,12 +200,6 @@
         .include('options')
         .jsonApi()
         .flatten()
-
-      if (this.isOpen) {
-        this.resize(50)
-      } else {
-        this.resize(10)
-      }
     },
 
     computed: {
@@ -217,27 +210,9 @@
       }
     },
 
-    watch: {
-      activeTab () {
-        this.resize()
-      },
-
-      isOpen () {
-        this.resize()
-      }
-    },
-
     methods: {
       currency,
-      markdown,
-
-      resize (timeout = 80) {
-        setTimeout(() => {
-          try {
-            this.$zendesk.resize()
-          } catch (e) {}
-        }, 80)
-      }
+      markdown
     }
   }
 </script>

@@ -20,7 +20,6 @@
         type="text"
         required
         :loading="$fetchState.pending"
-        @blur="blur"
       />
     </b-field>
 
@@ -30,7 +29,6 @@
         type="text"
         required
         :loading="$fetchState.pending"
-        @blur="blur"
       />
     </b-field>
 
@@ -57,7 +55,6 @@
         v-model="user.companyName"
         type="text"
         :loading="$fetchState.pending"
-        @blur="blur"
       />
     </b-field>
 
@@ -67,7 +64,6 @@
         type="email"
         :loading="$fetchState.pending"
         required
-        @blur="blur"
       />
     </b-field>
 
@@ -132,7 +128,6 @@
         handler () {
           this.$nextTick(() => {
             this.valid = this.$el.checkValidity()
-            this.$zendesk.resize()
           })
         }
       }
@@ -160,10 +155,6 @@
     },
 
     methods: {
-      blur () {
-        this.$zendesk.resize()
-      },
-
       async submit () {
         try {
           this.submitting = true
@@ -183,7 +174,6 @@
           this.error = e
         } finally {
           this.submitting = false
-          this.$zendesk.resize()
         }
       }
     }
