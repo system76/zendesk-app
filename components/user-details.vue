@@ -77,7 +77,7 @@
 
     <b-button
       type="is-primary"
-      @click="createUser"
+      @click="$emit('create')"
     >
       Create User
     </b-button>
@@ -211,14 +211,6 @@
         } else {
           return this.fullName
         }
-      }
-    },
-
-    methods: {
-      async createUser () {
-        await this.$zendesk.modal('/modal/create_customer')
-
-        this.$fetch()
       }
     }
   }
