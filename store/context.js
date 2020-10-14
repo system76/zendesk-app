@@ -19,7 +19,7 @@ export const actions = {
     const context = await this.$zendesk.context()
 
     commit('set', {
-      site: context.account.subdomain,
+      site: context.account.subdomain.replace('d3v-', ''),
       guid: context.instanceGuid,
 
       product: context.product,
