@@ -11,12 +11,13 @@
         fetch('http://localhost:4567/zat').then((res) => (res.status === 200)).catch(() => false)
       ])
 
+      const subdomain = context.account.subdomain.replace('d3v-', '')
       const path = `${context.product}/${context.location}?origin=${encodeURIComponent(client._origin)}&app_guid=${encodeURIComponent(client._appGuid)}`
 
       if (localhost) {
         window.location = `http://localhost:4567/${path}`
       } else {
-        window.location = `https://zendesk-app.${context.account.subdomain}.com/${path}`
+        window.location = `https://zendesk-app.${subdomain}.com/${path}`
       }
     }());
   </script>
