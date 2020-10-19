@@ -20,16 +20,22 @@
           :title="title"
           :alt="title"
         >
-
-        <h1 class="title is-4">
-          {{ title }}
-        </h1>
-        <h2
-          v-if="subtitle"
-          class="subtitle is-5"
-        >
-          {{ subtitle }}
-        </h2>
+        <div class="details">
+          <h1 class="title is-4">
+            {{ title }}
+          </h1>
+          <h2
+            v-if="subtitle"
+            class="subtitle is-5"
+          >
+            {{ subtitle }}
+          </h2>
+          <p
+            v-if="user.phoneNumber"
+          >
+            {{ user.phoneNumber | phoneNumber }}
+          </p>
+        </div>
       </div>
 
       <div class="mt-2 foot">
@@ -95,8 +101,7 @@
     display: grid;
     grid-gap: 0 2ch;
     grid-template-areas:
-      "avatar title"
-      "avatar subtitle";
+      "avatar details";
     grid-template-columns: auto 1fr;
   }
 
@@ -135,9 +140,24 @@
 
 <script>
   import md5 from 'blueimp-md5'
+  import { parsePhoneNumberFromString } from 'libphonenumber-js'
   import { mapState } from 'vuex'
 
   export default {
+    filters: {
+      phoneNumber (value) {
+        const v = parsePhoneNumberFromString(value || '', 'US')
+
+        if (v != null && v.country === 'US') {
+          return v.formatNational()
+        } else if (v != null) {
+          return v.formatInternational()
+        } else {
+          return null
+        }
+      }
+    },
+
     props: {
       userId: {
         type: [String, Number],
