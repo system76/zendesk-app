@@ -129,12 +129,8 @@
     grid-area: avatar;
   }
 
-  h1 {
-    grid-area: title;
-  }
-
-  h2 {
-    grid-area: subtitle;
+  .details {
+    grid-area: details;
   }
 </style>
 
