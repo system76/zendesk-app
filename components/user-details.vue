@@ -49,8 +49,10 @@
           <b-tag v-if="user.taxExempt">
             Tax Exempt
           </b-tag>
+          <b-tag v-if="isRepeatCustomer">
+            Repeat Customer
+          </b-tag>
         </b-taglist>
-
         <div class="buttons has-addons">
           <b-button
             :href="joshuaUrl"
@@ -158,17 +160,29 @@
       userId: {
         type: [String, Number],
         default: null
+      },
+
+      orderId: {
+        type: [String, Number],
+        default: null
       }
     },
 
     data: () => ({
-      user: {}
+      user: {},
+      orders: {}
     }),
 
     async fetch () {
       if (this.userId != null) {
         this.user = await this.$hal()
           .get(`/accounts/users/${this.userId}`)
+          .jsonApi()
+          .flatten()
+
+        this.orders = await this.$hal()
+          .get('fulfillment/orders')
+          .parameter('filter[user-id]', this.userId)
           .jsonApi()
           .flatten()
       }
@@ -207,6 +221,22 @@
 
       isBusiness () {
         return (this.user.affiliation === 'BUSINESS' && this.user.companyName != null)
+      },
+
+      isRepeatCustomer () {
+        let count = 0
+        this.orders.forEach(element => {
+          if (this.orderId) {
+            if (element.status === 'shipped_complete' && this.orderId !== element.id) count++
+          } else {
+            if (element.status === 'shipped_complete') count++
+          }
+        })
+        if (count > 0) {
+          return true
+        } else {
+          return false
+        }
       },
 
       joshuaUrl () {
