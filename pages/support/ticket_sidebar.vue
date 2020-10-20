@@ -2,6 +2,7 @@
   <div v-if="!$fetchState.pending">
     <user-details
       :user-id="requester.externalId"
+      :order-id="orderId"
       @create="createUser"
     />
 
