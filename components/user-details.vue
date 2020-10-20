@@ -183,6 +183,7 @@
         this.orders = await this.$hal()
           .get('fulfillment/orders')
           .parameter('filter[user-id]', this.userId)
+          .parameter('filter[status]', 'shipped_complete')
           .jsonApi()
           .flatten()
       }
@@ -224,19 +225,9 @@
       },
 
       isRepeatCustomer () {
-        let count = 0
-        this.orders.forEach(element => {
-          if (this.orderId) {
-            if (element.status === 'shipped_complete' && this.orderId !== element.id) count++
-          } else {
-            if (element.status === 'shipped_complete') count++
-          }
-        })
-        if (count > 0) {
-          return true
-        } else {
-          return false
-        }
+        const size = this.orders.length
+        const minOrders = this.orderId ? 1 : 2
+        return size >= minOrders
       },
 
       joshuaUrl () {
