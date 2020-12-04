@@ -231,7 +231,7 @@
       },
 
       joshuaUrl () {
-        return `https://${this.site}.com/admin/service/customer/${this.userId}`
+        return `https://joshua.${this.site}.com/admin/service/customer/${this.userId}`
       },
 
       lcarsUrl () {
