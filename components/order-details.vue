@@ -102,7 +102,7 @@
       ...mapState('context', ['site']),
 
       joshuaUrl () {
-        return `https://${this.site}.com/admin/service/order/${this.orderId}`
+        return `https://joshua.${this.site}.com/admin/service/order/${this.orderId}`
       },
 
       lcarsUrl () {
