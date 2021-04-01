@@ -43,9 +43,6 @@
           <b-tag v-if="isBusiness">
             Business
           </b-tag>
-          <b-tag v-if="user.newsletter">
-            Newsletter
-          </b-tag>
           <b-tag v-if="user.taxExempt">
             Tax Exempt
           </b-tag>
