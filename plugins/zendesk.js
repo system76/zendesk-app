@@ -18,8 +18,8 @@ export default (context, inject) => {
         url: host + url + query,
         ...opts
       })
-        .then((ctx) => client.instance(ctx['instances.create'][0].instanceGuid))
-        .then((cli) => cli.on('modal.close', resolve))
+        .then(ctx => client.instance(ctx['instances.create'][0].instanceGuid))
+        .then(cli => cli.on('modal.close', resolve))
         .catch(reject)
     })
   }

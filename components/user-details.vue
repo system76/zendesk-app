@@ -91,48 +91,6 @@
   </div>
 </template>
 
-<style scoped>
-  .container {
-    position: relative;
-  }
-
-  .head {
-    display: grid;
-    grid-gap: 0 2ch;
-    grid-template-areas:
-      "avatar details";
-    grid-template-columns: auto 1fr;
-  }
-
-  .foot {
-    display: grid;
-    justify-content: space-between;
-    grid-gap: 0 1rem;
-    grid-template-columns: 1fr auto;
-  }
-
-  .inline {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    align-content: center;
-  }
-
-  img {
-    background-color: rgba(125, 125, 125, 0.1);
-    border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, 0.67);
-    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
-    display: block;
-    flex: 0 0 auto;
-    grid-area: avatar;
-  }
-
-  .details {
-    grid-area: details;
-  }
-</style>
-
 <script>
   import md5 from 'blueimp-md5'
   import { parsePhoneNumberFromString } from 'libphonenumber-js'
@@ -211,7 +169,7 @@
 
       fullName () {
         const res = [this.user.firstName, this.user.lastName]
-          .filter((u) => (u != null))
+          .filter(u => (u != null))
           .join(' ')
 
         return (res === '') ? 'Unknown' : res
@@ -255,3 +213,45 @@
     }
   }
 </script>
+
+<style scoped>
+  .container {
+    position: relative;
+  }
+
+  .head {
+    display: grid;
+    grid-gap: 0 2ch;
+    grid-template-areas:
+      "avatar details";
+    grid-template-columns: auto 1fr;
+  }
+
+  .foot {
+    display: grid;
+    justify-content: space-between;
+    grid-gap: 0 1rem;
+    grid-template-columns: 1fr auto;
+  }
+
+  .inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-content: center;
+  }
+
+  img {
+    background-color: rgba(125, 125, 125, 0.1);
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.67);
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
+    display: block;
+    flex: 0 0 auto;
+    grid-area: avatar;
+  }
+
+  .details {
+    grid-area: details;
+  }
+</style>

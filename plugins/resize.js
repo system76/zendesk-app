@@ -1,4 +1,4 @@
-export default async function (ctx, inject) {
+export default function (ctx, inject) {
   const observer = new MutationObserver(() => ctx.$zendesk.resize())
 
   observer.observe(document, {

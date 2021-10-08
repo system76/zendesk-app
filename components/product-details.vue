@@ -43,6 +43,17 @@
         />
       </div>
 
+      <div class="my-4 is-flex">
+        <b-taglist attached>
+          <b-tag type="is-dark">
+            {{ returnText }}
+          </b-tag>
+          <b-tag :type="returnColor">
+            {{ returnValue }}
+          </b-tag>
+        </b-taglist>
+      </div>
+
       <b-tabs>
         <b-tab-item label="Technical">
           <ul :class="$style.list">
@@ -106,6 +117,102 @@
   </div>
 </template>
 
+<script>
+  import { endOfDay, format, isFuture, parseISO } from 'date-fns'
+  import { mapState } from 'vuex'
+
+  import { inline as markdown } from '@system76/markdown'
+
+  import { currency } from '~/utility'
+
+  export default {
+    props: {
+      open: {
+        type: Boolean,
+        default: false
+      },
+
+      productId: {
+        type: [String, Number],
+        required: true
+      }
+    },
+
+    data () {
+      return {
+        isOpen: this.open
+      }
+    },
+
+    async fetch () {
+      this.product = await this.$hal()
+        .get(`/fulfillment/products/${this.productId}`)
+        .include('options')
+        .jsonApi()
+        .flatten()
+
+      if (this.product.lastInWarrantyDate != null) {
+        this.product.lastInWarrantyDate = endOfDay(parseISO(this.product.lastInWarrantyDate))
+      }
+
+      if (this.product.lastReturnDate != null) {
+        this.product.lastReturnDate = endOfDay(parseISO(this.product.lastReturnDate))
+      }
+    },
+
+    computed: {
+      ...mapState('context', ['site']),
+
+      returnField () {
+        if (this.product == null) {
+          return null
+        } else if (isFuture(this.product.lastReturnDate)) {
+          return 'lastReturnDate'
+        } else {
+          return 'lastInWarrantyDate'
+        }
+      },
+
+      returnColor () {
+        if (this.returnField === 'lastReturnDate') {
+          return 'is-success'
+        } else if (this.product != null && isFuture(this.product.lastInWarrantyDate)) {
+          return 'is-info'
+        } else {
+          return 'is-danger'
+        }
+      },
+
+      returnText () {
+        if (this.returnField === 'lastReturnDate') {
+          return 'Return'
+        } else if (this.returnField === 'lastInWarrantyDate') {
+          return 'Warranty'
+        } else {
+          return 'Unknown'
+        }
+      },
+
+      returnValue () {
+        if (this.product == null) {
+          return 'Unknown'
+        } else {
+          return format(this.product[this.returnField], 'MMM d RRRR')
+        }
+      },
+
+      thumbnailUrl () {
+        return `https://assets.${this.site}.com/products/${this.product.model}/thumb.png?width=64&height=64`
+      }
+    },
+
+    methods: {
+      currency,
+      markdown
+    }
+  }
+</script>
+
 <style module>
   .container {
     position: relative;
@@ -167,52 +274,3 @@
     margin-left: 1rem;
   }
 </style>
-
-<script>
-  import { mapState } from 'vuex'
-
-  import { inline as markdown } from '@system76/markdown'
-
-  import { currency } from '~/utility'
-
-  export default {
-    props: {
-      open: {
-        type: Boolean,
-        default: false
-      },
-
-      productId: {
-        type: [String, Number],
-        required: true
-      }
-    },
-
-    data () {
-      return {
-        isOpen: this.open
-      }
-    },
-
-    async fetch () {
-      this.product = await this.$hal()
-        .get(`/fulfillment/products/${this.productId}`)
-        .include('options')
-        .jsonApi()
-        .flatten()
-    },
-
-    computed: {
-      ...mapState('context', ['site']),
-
-      thumbnailUrl () {
-        return `https://assets.${this.site}.com/products/${this.product.model}/thumb.png?width=64&height=64`
-      }
-    },
-
-    methods: {
-      currency,
-      markdown
-    }
-  }
-</script>

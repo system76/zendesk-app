@@ -97,4 +97,4 @@ library.add(
   faUserTie
 )
 
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('FontAwesomeIcon', FontAwesomeIcon)
