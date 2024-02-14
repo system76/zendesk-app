@@ -20,6 +20,13 @@
   import { mapGetters, mapState } from 'vuex'
 
   export default {
+    fetch () {
+      return Promise.all([
+        this.$store.dispatch('support/fetchFields'),
+        this.$store.dispatch('support/fetchRequester')
+      ])
+    },
+
     computed: {
       ...mapGetters('support', ['getFieldValue']),
       ...mapState('support', ['requester']),
@@ -31,13 +38,6 @@
       productModel () {
         return this.getFieldValue('productModel')
       }
-    },
-
-    fetch () {
-      return Promise.all([
-        this.$store.dispatch('support/fetchFields'),
-        this.$store.dispatch('support/fetchRequester')
-      ])
     },
 
     methods: {

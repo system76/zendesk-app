@@ -25,25 +25,27 @@
     "npm": ">= 6.9.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.32",
-    "@fortawesome/free-solid-svg-icons": "^5.15.1",
-    "@fortawesome/vue-fontawesome": "^2.0.0",
-    "@nuxtjs/style-resources": "^1.0.0",
-    "@system76/js-api": "^2.0.6",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/vue-fontawesome": "^2.0.2",
+    "@nuxtjs/style-resources": "^1.2.1",
+    "@system76/js-api": "^2.2.0",
     "@system76/markdown": "^1.0.0",
-    "blueimp-md5": "^2.18.0",
-    "buefy": "^0.9.3",
-    "bulma": "^0.9.0",
-    "cheerio": "^1.0.0-rc.3",
-    "core-js": "^3.6.5",
-    "libphonenumber-js": "^1.8.4",
-    "lodash": "^4.17.20",
-    "node-sass": "^4.14.1",
-    "nuxt": "^2.14.5",
-    "sass-loader": "^10.0.2"
+    "blueimp-md5": "^2.19.0",
+    "buefy": "^0.9.10",
+    "bulma": "^0.9.3",
+    "cheerio": "^1.0.0-rc.10",
+    "core-js": "^3.18.2",
+    "date-fns": "^2.25.0",
+    "libphonenumber-js": "^1.9.37",
+    "lodash": "^4.17.21",
+    "nuxt": "^2.15.8",
+    "sass": "^1.42.1",
+    "sass-loader": "^10.1.1",
+    "webpack": "^4.46.0"
   },
   "devDependencies": {
-    "@system76/eslint-config": "^3.0.0",
-    "eslint": "^7.10.0"
+    "@system76/eslint-config": "^3.1.0",
+    "eslint": "^7.32.0"
   }
 }

@@ -86,21 +86,9 @@
   </form>
 </template>
 
-<style scoped>
-  .buttons {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .buttons,
-  .buttons * {
-    margin: 0;
-  }
-</style>
-
 <script>
   function uuidv4 () {
-    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
       (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
     )
   }
@@ -122,17 +110,6 @@
       valid: false
     }),
 
-    watch: {
-      user: {
-        deep: true,
-        handler () {
-          this.$nextTick(() => {
-            this.valid = this.$el.checkValidity()
-          })
-        }
-      }
-    },
-
     async fetch () {
       const ticketClient = await this.$zendesk.remote('ticket_sidebar')
       const req = await ticketClient.get('ticket.requester')
@@ -151,6 +128,17 @@
 
       if (tags.includes('business')) {
         this.user.accountType = 'business'
+      }
+    },
+
+    watch: {
+      user: {
+        deep: true,
+        handler () {
+          this.$nextTick(() => {
+            this.valid = this.$el.checkValidity()
+          })
+        }
       }
     },
 
@@ -179,3 +167,15 @@
     }
   }
 </script>
+
+<style scoped>
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .buttons,
+  .buttons * {
+    margin: 0;
+  }
+</style>

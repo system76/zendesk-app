@@ -15,7 +15,7 @@ export const state = () => ({
 })
 
 export const getters = {
-  getField: (state) => (name) => {
+  getField: state => (name) => {
     return state.fields.find((f) => {
       return (f.name === name || camelCase(f.label) === name)
     })
@@ -29,7 +29,7 @@ export const getters = {
 
 export const mutations = {
   setFields (state, fields) {
-    state.fields = fields.map((f) => pick(f, ['label', 'name', 'value']))
+    state.fields = fields.map(f => pick(f, ['label', 'name', 'value']))
   },
 
   setRequester (state, requester) {
@@ -43,18 +43,18 @@ export const actions = {
   async fetchFields ({ commit }) {
     const raw = await this.$zendesk.get('ticketFields')
     const cleaned = raw.ticketFields
-      .filter((f) => (f.label != null && f.name != null))
-      .filter((f) => !BLOCKLIST_FIELDS.includes(f.name))
+      .filter(f => (f.label != null && f.name != null))
+      .filter(f => !BLOCKLIST_FIELDS.includes(f.name))
 
     const names = cleaned
-      .map((f) => f.name)
-      .map((f) => `ticket.customField:${f}`)
+      .map(f => f.name)
+      .map(f => `ticket.customField:${f}`)
     const values = await this.$zendesk.get(names)
 
     Object.entries(values).forEach(([k, v]) => {
       if (k !== 'errors') {
         const key = k.replace('ticket.customField:', '')
-        const cleanedValue = cleaned.find((c) => (c.name === key))
+        const cleanedValue = cleaned.find(c => (c.name === key))
 
         if (cleanedValue != null) {
           cleanedValue.value = v

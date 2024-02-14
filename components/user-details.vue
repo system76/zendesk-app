@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div :class="$style.container">
     <b-loading
       v-if="$fetchState.pending"
       active
@@ -14,13 +14,14 @@
     </b-message>
 
     <div v-else-if="user.id">
-      <div class="head">
+      <div :class="$style.head">
         <img
           :src="avatarUrl"
           :title="title"
           :alt="title"
+          :class="$style.avatar"
         >
-        <div class="details">
+        <div :class="$style.details">
           <h1 class="title is-4">
             {{ title }}
           </h1>
@@ -38,13 +39,10 @@
         </div>
       </div>
 
-      <div class="mt-2 foot">
-        <b-taglist class="mt-2 mb-0 tags">
+      <div :class="[$style.foot, 'mt-2']">
+        <b-taglist :class="[$style.tags, 'mt-2 mb-0']">
           <b-tag v-if="isBusiness">
             Business
-          </b-tag>
-          <b-tag v-if="user.newsletter">
-            Newsletter
           </b-tag>
           <b-tag v-if="user.taxExempt">
             Tax Exempt
@@ -74,70 +72,63 @@
           </b-button>
         </div>
       </div>
+
+      <template v-if="joshuaTickets.length > 0">
+        <hr class="my-4">
+
+        <b-collapse :open.sync="showJoshuaTickets">
+          <div
+            slot="trigger"
+            slot-scope="props"
+            :class="$style.dropdown"
+          >
+            <h2 class="subtitle is-5 my-0">
+              {{ joshuaTickets.length }} Joshua support
+              <template v-if="joshuaTickets.length === 1">
+                ticket
+              </template>
+              <template v-else>
+                tickets
+              </template>
+            </h2>
+
+            <font-awesome-icon
+              :icon="props.open ? 'angle-up' : 'angle-down'"
+            />
+          </div>
+
+          <ul :class="$style.list">
+            <li
+              v-for="ticket in joshuaTickets"
+              :key="ticket.id"
+            >
+              <a
+                :href="`https://${site}.com/admin/support/view/${ticket.id}`"
+                target="_blank"
+              >
+                {{ ticket.subject }}
+              </a>
+              <span :class="$style.timestamp">{{ friendlyDate(ticket.lastActionTimestamp) }}</span>
+            </li>
+          </ul>
+        </b-collapse>
+      </template>
     </div>
 
     <div
       v-else
-      class="inline"
+      :class="$style.inline"
     >
       <h1 class="title my-0 is-4">
         Unknown User
       </h1>
-
-      <b-button
-        type="is-primary"
-        @click="$emit('create')"
-      >
-        Create User
-      </b-button>
     </div>
   </div>
 </template>
 
-<style scoped>
-  .container {
-    position: relative;
-  }
-
-  .head {
-    display: grid;
-    grid-gap: 0 2ch;
-    grid-template-areas:
-      "avatar details";
-    grid-template-columns: auto 1fr;
-  }
-
-  .foot {
-    display: grid;
-    justify-content: space-between;
-    grid-gap: 0 1rem;
-    grid-template-columns: 1fr auto;
-  }
-
-  .inline {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    align-content: center;
-  }
-
-  img {
-    background-color: rgba(125, 125, 125, 0.1);
-    border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, 0.67);
-    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
-    display: block;
-    flex: 0 0 auto;
-    grid-area: avatar;
-  }
-
-  .details {
-    grid-area: details;
-  }
-</style>
-
 <script>
   import md5 from 'blueimp-md5'
+  import { format, parseISO } from 'date-fns'
   import { parsePhoneNumberFromString } from 'libphonenumber-js'
   import { mapState } from 'vuex'
 
@@ -170,7 +161,9 @@
 
     data: () => ({
       user: {},
-      orders: {}
+      orders: [],
+      joshuaTickets: [],
+      showJoshuaTickets: false
     }),
 
     async fetch () {
@@ -181,11 +174,18 @@
           .flatten()
 
         this.orders = await this.$hal()
-          .get('fulfillment/orders')
+          .get('/fulfillment/orders')
           .parameter('filter[user-id]', this.userId)
           .parameter('filter[status]', 'shipped_complete')
           .jsonApi()
           .flatten()
+
+        this.joshuaTickets = (await this.$hal()
+          .get('/support/tickets')
+          .parameter('filter[user-id]', this.userId)
+          .jsonApi()
+          .flatten())
+          .sort((a, b) => (parseISO(b.lastActionTimestamp) - parseISO(a.lastActionTimestamp)))
       }
     },
 
@@ -214,7 +214,7 @@
 
       fullName () {
         const res = [this.user.firstName, this.user.lastName]
-          .filter((u) => (u != null))
+          .filter(u => (u != null))
           .join(' ')
 
         return (res === '') ? 'Unknown' : res
@@ -255,6 +255,96 @@
           return this.fullName
         }
       }
+    },
+
+    methods: {
+      friendlyDate (date) {
+        return format(parseISO(date), 'MMM d RRRR')
+      }
     }
   }
 </script>
+
+<style module>
+  .container {
+    position: relative;
+  }
+
+  .head {
+    display: grid;
+    grid-gap: 0 2ch;
+    grid-template-areas:
+      "avatar details";
+    grid-template-columns: auto 1fr;
+  }
+
+  .foot {
+    display: grid;
+    justify-content: space-between;
+    grid-gap: 0 1rem;
+    grid-template-columns: 1fr auto;
+  }
+
+  .inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-content: center;
+  }
+
+  .avatar {
+    background-color: rgba(125, 125, 125, 0.1);
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.67);
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
+    display: block;
+    flex: 0 0 auto;
+    grid-area: avatar;
+  }
+
+  .details {
+    grid-area: details;
+  }
+
+  .dropdown {
+    display: grid;
+    grid-gap: 1ch 2ch;
+    grid-template-areas: "text icon";
+    grid-template-columns: 1fr auto;
+  }
+
+  .dropdown h2 {
+    grid-area: text;
+  }
+
+  .dropdown svg {
+    grid-area: icon;
+    margin: 0 16px;
+  }
+
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 1rem 0 0;
+  }
+
+  .list li {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0.6rem 1rem;
+  }
+
+  .list li:nth-child(even) {
+    background-color: #fafafa;
+    position: relative;
+  }
+
+  .list .timestamp {
+    white-space: nowrap;
+    word-break: keep;
+    margin-left: 1rem;
+  }
+</style>

@@ -61,19 +61,6 @@
   </div>
 </template>
 
-<style module>
-  .container {
-    position: relative;
-  }
-
-  .head {
-    align-content: center;
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-  }
-</style>
-
 <script>
   import { mapState } from 'vuex'
 
@@ -183,3 +170,16 @@
     }
   }
 </script>
+
+<style module>
+  .container {
+    position: relative;
+  }
+
+  .head {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
