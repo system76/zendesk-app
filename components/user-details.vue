@@ -122,13 +122,6 @@
       <h1 class="title my-0 is-4">
         Unknown User
       </h1>
-
-      <b-button
-        type="is-primary"
-        @click="$emit('create')"
-      >
-        Create User
-      </b-button>
     </div>
   </div>
 </template>
